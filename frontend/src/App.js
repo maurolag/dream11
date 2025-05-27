@@ -388,6 +388,8 @@ const App = () => {
       alert('¡Formación guardada exitosamente!');
       setShowSaveModal(false);
       setUserName('');
+      // Reload formations to show the new one
+      loadFormations(currentTheme?.name);
     } catch (error) {
       console.error('Error saving formation:', error);
       alert('Error al guardar la formación');
@@ -401,6 +403,10 @@ const App = () => {
   const availablePlayers = players.filter(player => 
     !getAssignedPlayerIds().includes(player.id)
   );
+
+  const getUniqueValues = (field) => {
+    return [...new Set(allPlayers.map(player => player[field]))].filter(Boolean);
+  };
 
   if (loading) {
     return (
@@ -417,64 +423,249 @@ const App = () => {
     <div className="app">
       <header className="app-header">
         <h1>⚽ Once Ideal</h1>
-        <div className="theme-info">
-          {currentTheme && (
+        
+        <nav className="main-nav">
+          <button 
+            className={currentView === 'builder' ? 'active' : ''}
+            onClick={() => setCurrentView('builder')}
+          >
+            🏗️ Crear Equipo
+          </button>
+          <button 
+            className={currentView === 'rankings' ? 'active' : ''}
+            onClick={() => { setCurrentView('rankings'); loadFormations(); }}
+          >
+            🏆 Rankings
+          </button>
+          <button 
+            className={currentView === 'themes' ? 'active' : ''}
+            onClick={() => setCurrentView('themes')}
+          >
+            🎯 Temas
+          </button>
+        </nav>
+
+        {currentView === 'builder' && currentTheme && (
+          <div className="theme-info">
             <div className="daily-theme">
               <h2>{currentTheme.name}</h2>
               <p>{currentTheme.description}</p>
+              <button 
+                className="change-theme-btn"
+                onClick={() => setShowThemeSelector(true)}
+              >
+                🔄 Cambiar Tema
+              </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </header>
 
       <div className="main-content">
-        <div className="formation-section">
-          <div className="formation-controls">
-            <label>Formación:</label>
-            <select 
-              value={selectedFormation} 
-              onChange={(e) => setSelectedFormation(e.target.value)}
-            >
-              {Object.keys(FORMATIONS).map(formation => (
-                <option key={formation} value={formation}>
-                  {formation}
-                </option>
-              ))}
-            </select>
-            
-            <button 
-              className="save-btn"
-              onClick={() => setShowSaveModal(true)}
-              disabled={Object.keys(assignedPlayers).length === 0}
-            >
-              💾 Guardar Formación
-            </button>
-          </div>
+        {currentView === 'builder' && (
+          <>
+            <div className="formation-section">
+              <div className="formation-controls">
+                <label>Formación:</label>
+                <select 
+                  value={selectedFormation} 
+                  onChange={(e) => setSelectedFormation(e.target.value)}
+                >
+                  {Object.keys(FORMATIONS).map(formation => (
+                    <option key={formation} value={formation}>
+                      {formation}
+                    </option>
+                  ))}
+                </select>
+                
+                <button 
+                  className="action-btn randomize-btn"
+                  onClick={randomizeFormation}
+                  title="Formar equipo aleatorio"
+                >
+                  🎲 Aleatorio
+                </button>
+                
+                <button 
+                  className="action-btn clear-btn"
+                  onClick={clearFormation}
+                  title="Limpiar formación"
+                >
+                  🗑️ Limpiar
+                </button>
+                
+                <button 
+                  className="save-btn"
+                  onClick={() => setShowSaveModal(true)}
+                  disabled={Object.keys(assignedPlayers).length === 0}
+                >
+                  💾 Guardar Formación
+                </button>
+              </div>
 
-          <FootballField
-            formation={FORMATIONS[selectedFormation]}
-            assignedPlayers={assignedPlayers}
-            onDrop={handleDrop}
-            onRemovePlayer={handleRemovePlayer}
-          />
-        </div>
-
-        <div className="players-section">
-          <h3>Jugadores Disponibles ({availablePlayers.length})</h3>
-          <div className="players-grid">
-            {availablePlayers.map(player => (
-              <PlayerCard
-                key={player.id}
-                player={player}
-                isDragging={draggedPlayer?.id === player.id}
-                onDragStart={handleDragStart}
-                isInFormation={false}
+              <FootballField
+                formation={FORMATIONS[selectedFormation]}
+                assignedPlayers={assignedPlayers}
+                onDrop={handleDrop}
+                onRemovePlayer={handleRemovePlayer}
               />
-            ))}
+            </div>
+
+            <div className="players-section">
+              <div className="players-header">
+                <h3>Jugadores Disponibles ({availablePlayers.length})</h3>
+                
+                <div className="filters">
+                  <select 
+                    value={playerFilters.position} 
+                    onChange={(e) => handleFilterChange('position', e.target.value)}
+                  >
+                    <option value="">Todas las posiciones</option>
+                    {getUniqueValues('position').map(pos => (
+                      <option key={pos} value={pos}>{pos}</option>
+                    ))}
+                  </select>
+                  
+                  <select 
+                    value={playerFilters.club} 
+                    onChange={(e) => handleFilterChange('club', e.target.value)}
+                  >
+                    <option value="">Todos los clubes</option>
+                    {getUniqueValues('club').map(club => (
+                      <option key={club} value={club}>{club}</option>
+                    ))}
+                  </select>
+                  
+                  <select 
+                    value={playerFilters.era} 
+                    onChange={(e) => handleFilterChange('era', e.target.value)}
+                  >
+                    <option value="">Todas las épocas</option>
+                    {getUniqueValues('era').map(era => (
+                      <option key={era} value={era}>{era}</option>
+                    ))}
+                  </select>
+                  
+                  <div className="rating-filter">
+                    <label>Rating mín: {playerFilters.minRating}</label>
+                    <input 
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={playerFilters.minRating}
+                      onChange={(e) => handleFilterChange('minRating', parseInt(e.target.value))}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="players-grid">
+                {availablePlayers.map(player => (
+                  <PlayerCard
+                    key={player.id}
+                    player={player}
+                    isDragging={draggedPlayer?.id === player.id}
+                    onDragStart={handleDragStart}
+                    isInFormation={false}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {currentView === 'rankings' && (
+          <div className="rankings-section">
+            <h2>🏆 Rankings de Formaciones</h2>
+            {currentTheme && (
+              <p className="theme-context">Tema actual: {currentTheme.name}</p>
+            )}
+            
+            <div className="formations-list">
+              {savedFormations.length === 0 ? (
+                <div className="no-formations">
+                  <p>No hay formaciones guardadas para este tema</p>
+                  <button onClick={() => setCurrentView('builder')}>
+                    Crear la primera formación
+                  </button>
+                </div>
+              ) : (
+                savedFormations.map(formation => (
+                  <div key={formation.id} className="formation-card">
+                    <div className="formation-header">
+                      <h3>{formation.formation_name}</h3>
+                      <span className="user-name">por {formation.user_name}</span>
+                      <div className="votes">
+                        <button 
+                          className="vote-btn"
+                          onClick={() => voteForFormation(formation.id)}
+                        >
+                          👍 {formation.votes}
+                        </button>
+                        <button 
+                          className="share-btn"
+                          onClick={() => shareFormation(formation)}
+                        >
+                          📤 Compartir
+                        </button>
+                      </div>
+                    </div>
+                    <div className="formation-players">
+                      <p>Jugadores: {formation.players.length}/11</p>
+                      <small>Tema: {formation.theme}</small>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
+        {currentView === 'themes' && (
+          <div className="themes-section">
+            <h2>🎯 Temas Disponibles</h2>
+            <div className="themes-grid">
+              {availableThemes.map(theme => (
+                <div key={theme.id} className="theme-card">
+                  <h3>{theme.name}</h3>
+                  <p>{theme.description}</p>
+                  {theme.is_daily && <span className="daily-badge">Tema del día</span>}
+                  <button 
+                    className="select-theme-btn"
+                    onClick={() => {
+                      selectTheme(theme);
+                      setCurrentView('builder');
+                    }}
+                  >
+                    Seleccionar Tema
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* Theme Selector Modal */}
+      {showThemeSelector && (
+        <div className="modal-overlay">
+          <div className="modal theme-selector-modal">
+            <h3>Seleccionar Tema</h3>
+            <div className="themes-list">
+              {availableThemes.map(theme => (
+                <div key={theme.id} className="theme-option" onClick={() => selectTheme(theme)}>
+                  <div className="theme-name">{theme.name}</div>
+                  <div className="theme-description">{theme.description}</div>
+                  {theme.is_daily && <span className="daily-badge">Tema del día</span>}
+                </div>
+              ))}
+            </div>
+            <button onClick={() => setShowThemeSelector(false)}>Cancelar</button>
+          </div>
+        </div>
+      )}
+
+      {/* Save Formation Modal */}
       {showSaveModal && (
         <div className="modal-overlay">
           <div className="modal">
