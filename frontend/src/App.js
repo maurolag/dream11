@@ -135,13 +135,25 @@ const FootballField = ({ formation, assignedPlayers, onDrop, onRemovePlayer }) =
 
 const App = () => {
   const [players, setPlayers] = useState([]);
+  const [allPlayers, setAllPlayers] = useState([]);
   const [currentTheme, setCurrentTheme] = useState(null);
+  const [availableThemes, setAvailableThemes] = useState([]);
   const [selectedFormation, setSelectedFormation] = useState("4-3-3");
   const [assignedPlayers, setAssignedPlayers] = useState({});
   const [draggedPlayer, setDraggedPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState('');
   const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showThemeSelector, setShowThemeSelector] = useState(false);
+  const [showRankings, setShowRankings] = useState(false);
+  const [playerFilters, setPlayerFilters] = useState({
+    position: '',
+    club: '',
+    era: '',
+    minRating: 0
+  });
+  const [savedFormations, setSavedFormations] = useState([]);
+  const [currentView, setCurrentView] = useState('builder'); // 'builder', 'rankings', 'themes'
 
   useEffect(() => {
     initializeApp();
