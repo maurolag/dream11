@@ -107,51 +107,63 @@ user_problem_statement: "Diseña una aplicación interactiva para que los usuari
 backend:
   - task: "Player API endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created comprehensive Player model with CRUD endpoints including filtering by position, club, era"
+      - working: true
+        agent: "testing"
+        comment: "Successfully tested all Player API endpoints. Created a test player, retrieved all players (16 total), retrieved player by ID, and verified filtering by position, club, and era. Error handling for non-existent players works correctly."
 
   - task: "Formation API endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created Formation model with save/vote functionality and player assignment tracking"
+      - working: true
+        agent: "testing"
+        comment: "Successfully tested all Formation API endpoints. Created a formation with a test player, retrieved all formations, filtered formations by theme, and verified voting functionality. Error handling for non-existent formations works correctly."
 
   - task: "Theme API endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created Theme model with daily theme functionality and filtering criteria"
+      - working: true
+        agent: "testing"
+        comment: "Successfully tested all Theme API endpoints. Created a test theme, retrieved all themes (5 total), and verified daily theme functionality. The default daily theme 'Leyendas del Fútbol Mundial' is returned when no daily theme is set for the current day."
 
   - task: "Sample data initialization"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created init-data endpoint with 15 famous football players and sample themes"
+      - working: true
+        agent: "testing"
+        comment: "Successfully tested sample data initialization. The endpoint correctly handles the case when data already exists and returns the appropriate message. Verified that 15 sample players and multiple themes were created."
 
 frontend:
   - task: "Interactive football field with drag-and-drop"
