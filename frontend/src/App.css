@@ -491,7 +491,392 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Responsive design */
+/* Navigation */
+.main-nav {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  justify-content: center;
+}
+
+.main-nav button {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.main-nav button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.main-nav button.active {
+  background: #ffd700;
+  color: #333;
+  border-color: #ffd700;
+}
+
+.change-theme-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.change-theme-btn:hover {
+  background: #ffd700;
+  color: #333;
+}
+
+/* Action buttons */
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.randomize-btn {
+  background: #17a2b8;
+  color: white;
+}
+
+.randomize-btn:hover {
+  background: #138496;
+  transform: translateY(-2px);
+}
+
+.clear-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.clear-btn:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Players section header and filters */
+.players-header {
+  margin-bottom: 1rem;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.filters select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.rating-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rating-filter label {
+  font-size: 0.9rem;
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.rating-filter input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Rankings section */
+.rankings-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.rankings-section h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.theme-context {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.formations-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.formation-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.formation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: #ffd700;
+}
+
+.formation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.formation-header h3 {
+  color: #ffd700;
+  margin: 0;
+}
+
+.user-name {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.votes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vote-btn, .share-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.vote-btn {
+  background: #28a745;
+  color: white;
+}
+
+.vote-btn:hover {
+  background: #218838;
+  transform: scale(1.05);
+}
+
+.share-btn {
+  background: #007bff;
+  color: white;
+}
+
+.share-btn:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.formation-players {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 1rem;
+}
+
+.formation-players p {
+  margin: 0 0 0.5rem 0;
+  font-weight: bold;
+}
+
+.formation-players small {
+  opacity: 0.7;
+}
+
+.no-formations {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.no-formations button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffd700;
+  color: #333;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.no-formations button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+/* Themes section */
+.themes-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.themes-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #ffd700;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.theme-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.theme-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  border-color: #ffd700;
+}
+
+.theme-card h3 {
+  color: #ffd700;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.theme-card p {
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.daily-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff6b35;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.select-theme-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  color: #333;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.select-theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Theme Selector Modal */
+.theme-selector-modal {
+  max-width: 600px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.themes-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.theme-option {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.theme-option:hover {
+  background: #f8f9fa;
+  border-color: #ffd700;
+  transform: translateX(5px);
+}
+
+.theme-name {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.theme-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.theme-option .daily-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 @media (max-width: 768px) {
   .app-header {
     padding: 1rem;
