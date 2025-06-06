@@ -5,12 +5,19 @@ import os
 import time
 from datetime import datetime
 
-# Get the backend URL from the frontend .env file
-with open('/app/frontend/.env', 'r') as f:
-    for line in f:
-        if line.startswith('REACT_APP_BACKEND_URL='):
-            BACKEND_URL = line.strip().split('=')[1].strip('"\'')
-            break
+# Resolve backend URL from environment or frontend/.env
+env_path = os.path.join(os.path.dirname(__file__), "frontend/.env")
+BACKEND_URL = os.getenv("BACKEND_URL")
+if not BACKEND_URL:
+    try:
+        with open(env_path, "r") as f:
+            for line in f:
+                if line.startswith("REACT_APP_BACKEND_URL="):
+                    BACKEND_URL = line.strip().split("=", 1)[1].strip().strip("\"").strip("'")
+                    break
+    except FileNotFoundError:
+        # Fallback to localhost if the env file is missing
+        BACKEND_URL = "http://localhost:8000"
 
 # Ensure the URL doesn't have quotes
 BACKEND_URL = BACKEND_URL.strip('"\'')
