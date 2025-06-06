@@ -87,12 +87,6 @@ COPY .devcontainer/context_params_app_builder.json /root/.config/context_params.
 RUN rm .devcontainer/generic_cloud_build.yaml
 RUN rm -rf .git
 
-RUN mkdir -p .emergent
-RUN cat <<EOF > .emergent/emergent.yml
-{
-  "env_image_name": "fastapi_react_mongo_base_image_cloud_arm:${TAG}"
-}
-EOF
 
 # Set up working directory for backend
 WORKDIR /app/backend
@@ -114,7 +108,7 @@ RUN npm i -g yarn
 # COPY frontend/package.json frontend/yarn.lock ./
 RUN yarn install
 
-RUN pip install "git+https://${GITHUB_TOKEN}@github.com/emergentbase/emergent.git@${PLUGIN_LIB_TAG}#subdirectory=plugin_library"
+
 
 # # Install ESLint packages globally
 # RUN yarn install -g @eslint/js@9.20.0 eslint@9.20.0 eslint-plugin-react@7.37.4 globals@15.14.0 \
@@ -122,7 +116,7 @@ RUN pip install "git+https://${GITHUB_TOKEN}@github.com/emergentbase/emergent.gi
 
 WORKDIR /app
 RUN git init -b main
-RUN git config --global user.name 'E1' && git config --global user.email 'e1@emergent.sh'
+
 RUN git add . && git commit --allow-empty -m 'Initial commit'
 RUN git rev-parse HEAD  > /root/.git_init_commit_hash
 
