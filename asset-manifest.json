@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dream11/static/css/main.82647378.css",
+    "main.js": "/dream11/static/js/main.bb0684be.js",
+    "index.html": "/dream11/index.html",
+    "main.82647378.css.map": "/dream11/static/css/main.82647378.css.map",
+    "main.bb0684be.js.map": "/dream11/static/js/main.bb0684be.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.82647378.css",
+    "static/js/main.bb0684be.js"
+  ]
+}
