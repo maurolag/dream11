@@ -146,6 +146,7 @@ const App = () => {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showThemeSelector, setShowThemeSelector] = useState(false);
   const [showRankings, setShowRankings] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
   const [playerFilters, setPlayerFilters] = useState({
     position: '',
     club: '',
@@ -429,12 +430,12 @@ const App = () => {
   }
 
   return (
-    <div className="app">
+    <div className={`app ${reduceMotion ? 'reduce-motion' : ''}`}>
       <header className="app-header">
         <h1>⚽ Once Ideal</h1>
         
         <nav className="main-nav">
-          <button 
+          <button
             className={currentView === 'builder' ? 'active' : ''}
             onClick={() => setCurrentView('builder')}
           >
@@ -451,6 +452,12 @@ const App = () => {
             onClick={() => setCurrentView('themes')}
           >
             🎯 Temas
+          </button>
+          <button
+            className="motion-toggle"
+            onClick={() => setReduceMotion(!reduceMotion)}
+          >
+            {reduceMotion ? 'Activar Animaciones' : 'Desactivar Animaciones'}
           </button>
         </nav>
 
