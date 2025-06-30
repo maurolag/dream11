@@ -400,6 +400,15 @@ const App = () => {
     return Object.values(assignedPlayers).map(player => player.id);
   };
 
+  const totalRating = Object.values(assignedPlayers).reduce(
+    (sum, player) => sum + player.rating,
+    0
+  );
+  const averageRating =
+    Object.values(assignedPlayers).length > 0
+      ? (totalRating / Object.values(assignedPlayers).length).toFixed(1)
+      : 0;
+
   const availablePlayers = players.filter(player => 
     !getAssignedPlayerIds().includes(player.id)
   );
@@ -494,13 +503,19 @@ const App = () => {
                   🗑️ Limpiar
                 </button>
                 
-                <button 
+                <button
                   className="save-btn"
                   onClick={() => setShowSaveModal(true)}
                   disabled={Object.keys(assignedPlayers).length === 0}
                 >
                   💾 Guardar Formación
                 </button>
+
+                {Object.values(assignedPlayers).length > 0 && (
+                  <div className="rating-summary">
+                    ⭐ Promedio: {averageRating}
+                  </div>
+                )}
               </div>
 
               <FootballField
